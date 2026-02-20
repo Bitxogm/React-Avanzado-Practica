@@ -1,0 +1,18 @@
+name: marketplace-react-advanced
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: marketplace-react-advanced-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: marketplace_react_advanced_db
+    ports:
+      - "54320:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
