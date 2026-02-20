@@ -11,19 +11,38 @@ const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  const user1 = await prisma.user.create({
-    data: {
+  const user1 = await prisma.user.upsert({
+    where: { email: "user1@example.com" },
+    update: {
+      password: "123456",
+      name: "Carlos García",
+    },
+    create: {
       email: "user1@example.com",
       password: "123456",
       name: "Carlos García",
     },
   });
 
-  const user2 = await prisma.user.create({
-    data: {
+  const user2 = await prisma.user.upsert({
+    where: { email: "user2@example.com" },
+    update: {
+      password: "123456",
+      name: "Ana Martínez",
+    },
+    create: {
       email: "user2@example.com",
       password: "123456",
       name: "Ana Martínez",
+    },
+  });
+
+  // Delete existing ads for these users to avoid conflicts
+  await prisma.ad.deleteMany({
+    where: {
+      userId: {
+        in: [user1.id, user2.id],
+      },
     },
   });
 

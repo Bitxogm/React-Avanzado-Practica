@@ -1,24 +1,18 @@
 "use client";
 
 import { useTheme } from "@/hooks/use-theme";
+import { Button } from "@/components/ui/button";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme, mounted } = useTheme();
 
-
   if (!mounted) {
-    return (
-      <div className="mt-4 px-4 py-2 bg-gray-600 text-white rounded">
-        Loading...
-      </div>
-    )
+    return <Button variant="ghost" size="sm">...</Button>;
   }
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="mt-4 px-4 py-2 bg-gray-600 text-white rounded">
-      Tema: {theme === "light" ? "Claro ☀️" : "Oscuro 🌙"}
-    </button>
+    <Button variant="ghost" size="sm" onClick={toggleTheme}>
+      {theme === "light" ? "☀️" : "🌙"}
+    </Button>
   );
 }
