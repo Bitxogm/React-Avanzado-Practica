@@ -1,9 +1,11 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { loginSchema, createAdSchema } from "./validations";
 import prisma from "./prisma";
+
 
 export async function loginAction(prevState: unknown, formData: FormData) {
   const raw = {
@@ -25,8 +27,19 @@ export async function loginAction(prevState: unknown, formData: FormData) {
     return { errors: { email: ["Credenciales incorrectas"] } };
   }
 
+  // Guardar sesión en cookie
+  const cookieStore = await cookies();
+  cookieStore.set("session", String(user.id), {
+    httpOnly: true,      // no accesible desde JS del cliente
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24, // 24 horas
+    path: "/",
+  });
+
   redirect("/");
 }
+
 
 export async function createAdAction(prevState: unknown, formData: FormData) {
   const raw = {
