@@ -7,46 +7,34 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is not set");
 }
 
+console.log("🔌 Connecting to:", connectionString.split("@")[1]); // muestra host sin credenciales
+
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+  console.log("🌱 Starting seed...");
+
   const user1 = await prisma.user.upsert({
     where: { email: "user1@example.com" },
-    update: {
-      password: "123456",
-      name: "Carlos García",
-    },
-    create: {
-      email: "user1@example.com",
-      password: "123456",
-      name: "Carlos García",
-    },
+    update: { password: "123456", name: "Carlos García" },
+    create: { email: "user1@example.com", password: "123456", name: "Carlos García" },
   });
+  console.log("✅ User1:", user1.email);
 
   const user2 = await prisma.user.upsert({
     where: { email: "user2@example.com" },
-    update: {
-      password: "123456",
-      name: "Ana Martínez",
-    },
-    create: {
-      email: "user2@example.com",
-      password: "123456",
-      name: "Ana Martínez",
-    },
+    update: { password: "123456", name: "Ana Martínez" },
+    create: { email: "user2@example.com", password: "123456", name: "Ana Martínez" },
   });
+  console.log("✅ User2:", user2.email);
 
-  // Delete existing ads for these users to avoid conflicts
   await prisma.ad.deleteMany({
-    where: {
-      userId: {
-        in: [user1.id, user2.id],
-      },
-    },
+    where: { userId: { in: [user1.id, user2.id] } },
   });
+  console.log("🗑️  Existing ads deleted");
 
-  await prisma.ad.createMany({
+  const ads = await prisma.ad.createMany({
     data: [
       {
         title: "Bicicleta de montaña",
@@ -78,6 +66,8 @@ async function main() {
       },
     ],
   });
+  console.log(`✅ Ads created: ${ads.count}`);
+  console.log("🎉 Seed completed!");
 }
 
 main()
@@ -85,7 +75,7 @@ main()
     await prisma.$disconnect();
   })
   .catch(async (error) => {
-    console.error(error);
+    console.error("❌ Seed failed:", error);
     await prisma.$disconnect();
     process.exit(1);
   });
