@@ -1,7 +1,31 @@
 import prisma from "./prisma";
 import { Ad } from "@/types/ad";
 
-export async function getArticles(): Promise<Ad[]> {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  return prisma.ad.findMany();
+export interface AdFilters {
+  search?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  tag?: string;
+}
+
+export async function getArticles(filters: AdFilters = {}): Promise<Ad[]> {
+  const { search, minPrice, maxPrice, tag } = filters;
+
+  return prisma.ad.findMany({
+    where: {
+      AND: [
+        search
+          ? {
+              OR: [
+                { title: { contains: search, mode: "insensitive" } },
+                { description: { contains: search, mode: "insensitive" } },
+              ],
+            }
+          : {},
+        minPrice !== undefined ? { price: { gte: minPrice } } : {},
+        maxPrice !== undefined ? { price: { lte: maxPrice } } : {},
+        tag ? { tags: { has: tag } } : {},
+      ],
+    },
+  });
 }
