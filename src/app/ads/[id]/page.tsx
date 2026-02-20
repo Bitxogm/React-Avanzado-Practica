@@ -7,6 +7,8 @@ interface AdPageProps {
 
 export async function generateMetadata({ params }: AdPageProps) {
   const { id } = await params;
+
+   if (isNaN(Number(id))) return { title: "Anuncio no encontrado" };
   const ad = await getArticleById(Number(id));
 
   if (!ad) {
@@ -21,6 +23,7 @@ export async function generateMetadata({ params }: AdPageProps) {
 
 export default async function AdPage({ params }: AdPageProps) {
   const { id } = await params;
+   if (isNaN(Number(id))) notFound();
   const ad = await getArticleById(Number(id));
 
   if (!ad) notFound();
