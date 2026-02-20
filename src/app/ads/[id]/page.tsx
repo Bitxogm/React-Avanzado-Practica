@@ -1,0 +1,48 @@
+import { getArticleById } from "@/lib/ad";
+import { notFound } from "next/navigation";
+
+interface AdPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: AdPageProps) {
+  const { id } = await params;
+  const ad = await getArticleById(Number(id));
+
+  if (!ad) {
+    return { title: "Anuncio no encontrado" };
+  }
+
+  return {
+    title: ad.title,
+    description: ad.description,
+  };
+}
+
+export default async function AdPage({ params }: AdPageProps) {
+  const { id } = await params;
+  const ad = await getArticleById(Number(id));
+
+  if (!ad) notFound();
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <h1 className="text-3xl font-bold mb-4">{ad.title}</h1>
+      <p className="text-muted-foreground mb-6">{ad.description}</p>
+      <div className="flex gap-2 flex-wrap mb-6">
+        {ad.tags.map((tag) => (
+          <span
+            key={tag}
+            className="bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-full"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+      <p className="text-2xl font-bold text-primary">{ad.price}€</p>
+      <p className="text-sm text-muted-foreground mt-2">
+        {ad.sold ? "Vendido" : "Disponible"}
+      </p>
+    </div>
+  );
+}
