@@ -1,35 +1,27 @@
 import { getArticleById } from "@/lib/ad";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
-interface AdPageProps {
-  params: Promise<{ id: string }>;
-}
-
-export async function generateMetadata({ params }: AdPageProps) {
-  const { id } = await params;
-
-   if (isNaN(Number(id))) return { title: "Anuncio no encontrado" };
-  const ad = await getArticleById(Number(id));
-
-  if (!ad) {
-    return { title: "Anuncio no encontrado" };
-  }
-
-  return {
-    title: ad.title,
-    description: ad.description,
-  };
-}
+// ... mismo código
 
 export default async function AdPage({ params }: AdPageProps) {
   const { id } = await params;
-   if (isNaN(Number(id))) notFound();
+  if (isNaN(Number(id))) notFound();
   const ad = await getArticleById(Number(id));
-
   if (!ad) notFound();
 
   return (
     <div className="max-w-2xl mx-auto">
+      {ad.image && (
+        <div className="relative w-full h-72 mb-6 rounded-lg overflow-hidden">
+          <Image
+            src={ad.image}
+            alt={ad.title}
+            fill
+            className="object-cover"
+          />
+        </div>
+      )}
       <h1 className="text-3xl font-bold mb-4">{ad.title}</h1>
       <p className="text-muted-foreground mb-6">{ad.description}</p>
       <div className="flex gap-2 flex-wrap mb-6">
