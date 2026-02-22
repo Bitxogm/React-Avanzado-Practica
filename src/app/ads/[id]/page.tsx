@@ -2,12 +2,32 @@ import { getArticleById } from "@/lib/ad";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-// ... mismo código
+interface AdPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: AdPageProps) {
+  const { id } = await params;
+
+  if (isNaN(Number(id))) return { title: "Anuncio no encontrado" };
+
+  const ad = await getArticleById(Number(id));
+
+  if (!ad) return { title: "Anuncio no encontrado" };
+
+  return {
+    title: ad.title,
+    description: ad.description,
+  };
+}
 
 export default async function AdPage({ params }: AdPageProps) {
   const { id } = await params;
+
   if (isNaN(Number(id))) notFound();
+
   const ad = await getArticleById(Number(id));
+
   if (!ad) notFound();
 
   return (
