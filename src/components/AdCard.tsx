@@ -1,11 +1,6 @@
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import Image from "next/image";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Ad } from "@/types/ad";
 
 interface AdCardProps {
@@ -15,7 +10,17 @@ interface AdCardProps {
 export function AdCard({ ad }: AdCardProps) {
   return (
     <Link href={`/ads/${ad.id}`}>
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer overflow-hidden">
+        {ad.image && (
+          <div className="relative w-full h-48">
+            <Image
+              src={ad.image}
+              alt={ad.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
         <CardHeader>
           <CardTitle>{ad.title}</CardTitle>
         </CardHeader>
