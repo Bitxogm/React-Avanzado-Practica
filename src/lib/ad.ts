@@ -17,7 +17,11 @@ export async function getArticleById(id: number): Promise<Ad | null> {
 export async function getArticles(filters: AdFilters = {}): Promise<Ad[]> {
   const { search, minPrice, maxPrice, tag } = filters;
 
-  return prisma.ad.findMany({
+  // Normalizar el tag a minúsculas
+  const normalizedTag = tag?.toLowerCase().trim();
+
+  // Primero obtenemos todos los anuncios con los filtros básicos
+  const ads = await prisma.ad.findMany({
     where: {
       AND: [
         search
@@ -30,8 +34,16 @@ export async function getArticles(filters: AdFilters = {}): Promise<Ad[]> {
           : {},
         minPrice !== undefined ? { price: { gte: minPrice } } : {},
         maxPrice !== undefined ? { price: { lte: maxPrice } } : {},
-        tag ? { tags: { has: tag } } : {},
       ],
     },
   });
+
+  // Luego filtramos por tags en memoria (case-insensitive)
+  if (normalizedTag) {
+    return ads.filter((ad) =>
+      ad.tags.some((t) => t.toLowerCase().includes(normalizedTag)),
+    );
+  }
+
+  return ads;
 }

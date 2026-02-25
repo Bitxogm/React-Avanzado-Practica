@@ -14,6 +14,7 @@
     "prisma:seed:cloud": "SEED_ENV=cloud tsx --env-file=.env.supabase prisma/seed.ts"
   },
   "dependencies": {
+    "@primer/octicons-react": "^19.22.0",
     "@prisma/adapter-pg": "^7.4.1",
     "@prisma/client": "7.4.1",
     "class-variance-authority": "^0.7.1",

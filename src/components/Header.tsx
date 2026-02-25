@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
+import { PlusIcon, SignInIcon, HomeIcon } from "@primer/octicons-react";
 
 export const Header = () => {
   return (
@@ -10,15 +11,20 @@ export const Header = () => {
           Marketplace
         </Link>
         <nav className="flex items-center gap-4">
-          <Link href="/" className="text-sm hover:text-primary transition-colors">
+          <Link href="/" className="flex items-center gap-2 text-sm hover:text-primary transition-colors">
+            <HomeIcon size={16} />
             Anuncios
           </Link>
-          <Link href="/ads/create" className="text-sm hover:text-primary transition-colors">
+          <Link href="/ads/create" className="flex items-center gap-2 text-sm hover:text-primary transition-colors">
+            <PlusIcon size={16} />
             Publicar
           </Link>
           <ThemeToggle />
-          <Button asChild size="sm">
-            <Link href="/login">Login</Link>
+          <Button asChild size="sm" className="flex items-center gap-2">
+            <Link href="/login">
+              <SignInIcon size={16} />
+              Login
+            </Link>
           </Button>
         </nav>
       </div>
