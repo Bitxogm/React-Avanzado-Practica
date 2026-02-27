@@ -1,12 +1,19 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 import { createAdAction } from "@/lib/actions";
 
-const initialState = { errors: {} as Record<string, string[]> };
+const initialState = { errors: {} as Record<string, string[]>, success: false, message: "" };
 
 export default function CreateAdForm() {
   const [state, formAction, isPending] = useActionState(createAdAction, initialState);
+
+  useEffect(() => {
+    if (state?.message && !state.success) {
+      toast.error(state.message);
+    }
+  }, [state?.message, state?.success]);
 
   return (
     <form action={formAction} className="flex flex-col gap-4">

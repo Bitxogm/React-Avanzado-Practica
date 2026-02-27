@@ -6,9 +6,10 @@ import { TagIcon, PackageIcon } from "@primer/octicons-react";
 
 interface AdCardProps {
   ad: Ad;
+  priority?: boolean;
 }
 
-export function AdCard({ ad }: AdCardProps) {
+export function AdCard({ ad, priority = false }: AdCardProps) {
   return (
     <Link href={`/ads/${ad.id}`}>
       <Card className="hover:shadow-lg transition-shadow cursor-pointer overflow-hidden">
@@ -18,7 +19,9 @@ export function AdCard({ ad }: AdCardProps) {
               src={ad.image}
               alt={ad.title}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover"
+              priority={priority}
             />
           </div>
         )}

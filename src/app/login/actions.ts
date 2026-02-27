@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import z from "zod";
 import { LoginState } from "./types";
 import { createSession } from "@/lib/auth";
@@ -30,12 +29,8 @@ export async function loginAction(
   _prevState: LoginState,
   formData: FormData,
 ): Promise<LoginState> {
-  console.log("\\n[loginAction] ===== INICIANDO LOGIN =====");
-
   const emailInput = String(formData.get("email"));
   const passwordInput = String(formData.get("password"));
-
-  console.log("[loginAction] Email:", emailInput);
 
   const parsed = loginSchema.safeParse({
     email: emailInput,
@@ -43,7 +38,6 @@ export async function loginAction(
   });
 
   if (!parsed.success) {
-    console.log("[loginAction] ❌ Validación fallida");
     return {
       success: false,
       message: "Revisa los campos marcados",
@@ -55,14 +49,9 @@ export async function loginAction(
   const email = parsed.data.email.toLowerCase();
   const password = parsed.data.password;
 
-  console.log("[loginAction] Validación OK, buscando usuario...");
-
   const user = await verifyPassword(email, password);
 
   if (!user) {
-    console.log(
-      "[loginAction] ❌ Usuario no encontrado o contraseña incorrecta",
-    );
     return {
       success: false,
       message: "Credenciales incorrectas",
@@ -71,12 +60,12 @@ export async function loginAction(
     };
   }
 
-  console.log("[loginAction] ✅ Usuario encontrado:", user.id);
-  console.log("[loginAction] Creando sesión...");
-
   await createSession(user.id);
 
-  console.log("[loginAction] ✅ SESIÓN CREADA, redirigiendo...");
-
-  redirect("/");
+  return {
+    success: true,
+    message: "¡Login correcto! Redirigiendo...",
+    errors: {},
+    values: { email },
+  };
 }

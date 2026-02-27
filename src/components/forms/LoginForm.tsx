@@ -1,6 +1,8 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { loginAction } from "@/app/login/actions";
 import { initialLoginState } from "@/app/login/types";
 
@@ -40,7 +42,21 @@ export default function LoginForm({ from }: LoginFormProps) {
   const [state, formAction] = useActionState(loginAction, initialLoginState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
   const safeState = state ?? initialLoginState;
+
+  useEffect(() => {
+    if (safeState.success) {
+      toast.success(safeState.message);
+      const timer = setTimeout(() => {
+        router.push(from ?? "/");
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+    if (!safeState.success && safeState.message && Object.keys(safeState.errors).length === 0) {
+      toast.error(safeState.message);
+    }
+  }, [safeState.success, safeState.message, router, from]);
 
   const fillCredentials = (credential: TestCredential) => {
     setEmail(credential.email);
@@ -77,8 +93,6 @@ export default function LoginForm({ from }: LoginFormProps) {
 
       {/* Formulario */}
       <form action={formAction} className="rounded-lg border border-border bg-card p-6 space-y-4">
-        {/* <input type="hidden" name="from" value={from} /> */}
-
         <div className="space-y-1">
           <label htmlFor="email" className="block text-sm font-semibold">
             Email
@@ -123,12 +137,6 @@ export default function LoginForm({ from }: LoginFormProps) {
         >
           Iniciar sesion
         </button>
-
-        {safeState.message ? (
-          <p className={`text-sm ${safeState.success ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-            {safeState.message}
-          </p>
-        ) : null}
       </form>
     </div>
   );

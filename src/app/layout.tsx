@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,9 +25,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // ⚠️ PRUEBA TEMPORAL - Descomenta para probar global-error.tsx
-  // throw new Error("Error crítico en el root layout - Global Error Boundary");
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -35,6 +33,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

@@ -2,34 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { loginSchema, createAdSchema } from "./validations";
-import { createSession, getSession } from "./auth";
+import { createAdSchema } from "./validations";
+import { getSession } from "./auth";
 import prisma from "./prisma";
-
-export async function loginAction(prevState: unknown, formData: FormData) {
-  const raw = {
-    email: formData.get("email"),
-    password: formData.get("password"),
-  };
-
-  const result = loginSchema.safeParse(raw);
-
-  if (!result.success) {
-    return { errors: result.error.flatten().fieldErrors };
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { email: result.data.email },
-  });
-
-  if (!user || user.password !== result.data.password) {
-    return { errors: { email: ["Credenciales incorrectas"] } };
-  }
-
-  await createSession(user.id);
-
-  redirect("/");
-}
 
 export async function createAdAction(prevState: unknown, formData: FormData) {
   const raw = {
@@ -42,13 +17,21 @@ export async function createAdAction(prevState: unknown, formData: FormData) {
   const result = createAdSchema.safeParse(raw);
 
   if (!result.success) {
-    return { errors: result.error.flatten().fieldErrors };
+    return {
+      success: false,
+      message: "Revisa los campos marcados",
+      errors: result.error.flatten().fieldErrors,
+    };
   }
 
   const session = await getSession();
 
   if (!session) {
-    return { errors: { general: ["No estás autenticado"] } };
+    return {
+      success: false,
+      message: "No estás autenticado",
+      errors: { general: ["No estás autenticado"] },
+    };
   }
 
   await prisma.ad.create({
