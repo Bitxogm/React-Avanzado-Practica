@@ -24,6 +24,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // ⚠️ PRUEBA TEMPORAL - Descomenta para probar global-error.tsx
+  // throw new Error("Error crítico en el root layout - Global Error Boundary");
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { loginSchema, createAdSchema } from "./validations";
 import prisma from "./prisma";
-
+import { getSession } from "./auth";
 
 export async function loginAction(prevState: unknown, formData: FormData) {
   const raw = {
@@ -30,7 +30,7 @@ export async function loginAction(prevState: unknown, formData: FormData) {
   // Guardar sesión en cookie
   const cookieStore = await cookies();
   cookieStore.set("session", String(user.id), {
-    httpOnly: true,      // no accesible desde JS del cliente
+    httpOnly: true, // no accesible desde JS del cliente
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     maxAge: 60 * 60 * 24, // 24 horas
@@ -39,7 +39,6 @@ export async function loginAction(prevState: unknown, formData: FormData) {
 
   redirect("/");
 }
-
 
 export async function createAdAction(prevState: unknown, formData: FormData) {
   const raw = {
@@ -55,10 +54,16 @@ export async function createAdAction(prevState: unknown, formData: FormData) {
     return { errors: result.error.flatten().fieldErrors };
   }
 
+  const session = await getSession();
+
+  if (!session) {
+    return { errors: { general: ["No estás autenticado"] } };
+  }
+
   await prisma.ad.create({
     data: {
       ...result.data,
-      userId: 1, // temporal hasta tener auth real
+      userId: session.userId,
     },
   });
 

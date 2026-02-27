@@ -8,7 +8,7 @@ export interface AdFilters {
   tag?: string;
 }
 
-export async function getArticleById(id: number): Promise<Ad | null> {
+export async function getArticleById(id: string): Promise<Ad | null> {
   return prisma.ad.findUnique({
     where: { id },
   });

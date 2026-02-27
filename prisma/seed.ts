@@ -2,6 +2,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "./generated/prisma/client";
 import { localUsers, localAds } from "./seeds/local";
 import { cloudUsers, cloudAds } from "./seeds/cloud";
+import { createHash } from "crypto";
 
 const connectionString = process.env.DATABASE_URL;
 const environment = process.env.SEED_ENV || "local";
@@ -16,6 +17,10 @@ console.log("🌍 Environment:", environment);
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
+function hashPassword(plainPassword: string): string {
+  return createHash("sha256").update(plainPassword).digest("hex");
+}
+
 async function main() {
   console.log("🌱 Starting seed...");
 
@@ -24,15 +29,15 @@ async function main() {
 
   const user1 = await prisma.user.upsert({
     where: { email: users[0].email },
-    update: { password: users[0].password, name: users[0].name },
-    create: users[0],
+    update: { password: hashPassword(users[0].password), name: users[0].name },
+    create: { ...users[0], password: hashPassword(users[0].password) },
   });
   console.log("✅ User1:", user1.email);
 
   const user2 = await prisma.user.upsert({
     where: { email: users[1].email },
-    update: { password: users[1].password, name: users[1].name },
-    create: users[1],
+    update: { password: hashPassword(users[1].password), name: users[1].name },
+    create: { ...users[1], password: hashPassword(users[1].password) },
   });
   console.log("✅ User2:", user2.email);
 

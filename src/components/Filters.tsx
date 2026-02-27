@@ -70,7 +70,7 @@ export function Filters() {
   return (
     <div className="flex flex-col gap-4 mb-8">
       <div className="flex flex-wrap gap-4">
-        <div className="flex-1 min-w-[200px] relative">
+        <div className="flex-1 min-w-50 relative">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
           <input
             type="text"

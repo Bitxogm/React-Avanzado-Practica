@@ -10,9 +10,7 @@ export const dynamic = "force-static";
 export async function generateMetadata({ params }: AdPageProps) {
   const { id } = await params;
 
-  if (isNaN(Number(id))) return { title: "Anuncio no encontrado" };
-
-  const ad = await getArticleById(Number(id));
+  const ad = await getArticleById(id);
 
   if (!ad) return { title: "Anuncio no encontrado" };
 
@@ -30,9 +28,7 @@ export async function generateMetadata({ params }: AdPageProps) {
 export default async function AdPage({ params }: AdPageProps) {
   const { id } = await params;
 
-  if (isNaN(Number(id))) throw new Error("ID de anuncio inválido");
-
-  const ad = await getArticleById(Number(id));
+  const ad = await getArticleById(id);
 
   if (!ad) throw new Error("El anuncio no existe o ha sido eliminado");
 

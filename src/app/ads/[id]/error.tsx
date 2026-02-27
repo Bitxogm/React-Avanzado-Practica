@@ -37,7 +37,7 @@ export default function Error({
           El anuncio no existe
         </h2>
 
-        <p className="text-lg text-gray-600 dark:text-gray-400 break-words">
+        <p className="text-lg text-gray-600 dark:text-gray-400 wrap-break-word">
           {error.message || "El anuncio que buscas no existe, fue eliminado o no tienes acceso a él."}
         </p>
 
@@ -50,13 +50,13 @@ export default function Error({
         <div className="pt-6 flex gap-3 justify-center flex-wrap">
           <button
             onClick={reset}
-            className="inline-flex items-center justify-center rounded-md bg-violet-600 px-8 py-3 text-sm font-semibold text-white shadow-lg hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 transition-all duration-200"
+            className="inline-flex items-center justify-center rounded-md bg-violet-600 px-8 py-3 text-sm font-semibold text-white shadow-lg hover:bg-violet-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-violet-600 transition-all duration-200"
           >
             Reintentar
           </button>
           <Link
             href="/"
-            className="inline-flex items-center justify-center rounded-md bg-gray-600 px-8 py-3 text-sm font-semibold text-white shadow-lg hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600 transition-all duration-200"
+            className="inline-flex items-center justify-center rounded-md bg-gray-600 px-8 py-3 text-sm font-semibold text-white shadow-lg hover:bg-gray-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-gray-600 transition-all duration-200"
           >
             Volver a Inicio
           </Link>

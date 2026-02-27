@@ -11,14 +11,16 @@ export const cloudUsers = [
   },
 ];
 
-export const cloudAds = (user1Id: number, user2Id: number) => [
+export const cloudAds = (user1Id: string, user2Id: string) => [
   // Carlos - tecnología
   {
     title: "iPhone 13 Pro 256GB",
-    description: "iPhone 13 Pro en perfecto estado, con caja original y todos los accesorios.",
+    description:
+      "iPhone 13 Pro en perfecto estado, con caja original y todos los accesorios.",
     price: 750,
     tags: ["tecnología", "móvil"],
-    image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   {
@@ -26,7 +28,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "MacBook Pro 13 pulgadas, chip M1, 8GB RAM, 256GB SSD.",
     price: 1100,
     tags: ["tecnología", "ordenador"],
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   {
@@ -34,7 +37,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Auriculares inalámbricos con cancelación de ruido, poco uso.",
     price: 220,
     tags: ["tecnología", "audio"],
-    image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   {
@@ -42,15 +46,18 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Monitor LG UltraFine 27 pulgadas, resolución 4K, panel IPS.",
     price: 350,
     tags: ["tecnología", "monitor"],
-    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   {
     title: "Teclado mecánico Keychron K2",
-    description: "Teclado mecánico compacto, switches Brown, retroiluminación RGB.",
+    description:
+      "Teclado mecánico compacto, switches Brown, retroiluminación RGB.",
     price: 90,
     tags: ["tecnología", "periféricos"],
-    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   {
@@ -58,7 +65,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "iPad Pro 11 pulgadas, chip M2, 128GB WiFi, con Apple Pencil.",
     price: 900,
     tags: ["tecnología", "tablet"],
-    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   {
@@ -66,7 +74,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Cámara mirrorless full frame con objetivo 28-70mm incluido.",
     price: 1800,
     tags: ["fotografía", "cámara"],
-    image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   {
@@ -74,7 +83,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Nintendo Switch OLED blanca, incluye 3 juegos.",
     price: 280,
     tags: ["videojuegos", "consola"],
-    image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   {
@@ -82,7 +92,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Dron DJI Mini 3 Pro con control DRC, 3 baterías.",
     price: 650,
     tags: ["fotografía", "dron"],
-    image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   {
@@ -90,7 +101,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Samsung Galaxy S23 256GB negro, sin arañazos.",
     price: 550,
     tags: ["tecnología", "móvil"],
-    image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=300&fit=crop",
     userId: user1Id,
   },
   // Ana - hogar, deporte, moda
@@ -99,7 +111,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Bicicleta Trek Marlin 5, talla M, muy poco uso.",
     price: 450,
     tags: ["deporte", "bicicleta"],
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
     userId: user2Id,
   },
   {
@@ -107,15 +120,18 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Mesa de comedor de roble macizo para 6 personas, 180x90cm.",
     price: 320,
     tags: ["hogar", "muebles"],
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop",
     userId: user2Id,
   },
   {
     title: "Guitarra Fender Stratocaster",
-    description: "Fender Stratocaster American Standard, color sunburst, incluye funda.",
+    description:
+      "Fender Stratocaster American Standard, color sunburst, incluye funda.",
     price: 950,
     tags: ["música", "guitarra"],
-    image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&h=300&fit=crop",
     userId: user2Id,
   },
   {
@@ -123,7 +139,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Sofá moderno 3 plazas en tela gris, excelente estado.",
     price: 400,
     tags: ["hogar", "muebles"],
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop",
     userId: user2Id,
   },
   {
@@ -131,7 +148,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Nike Air Max 90 talla 42, color blanco/negro, nuevas.",
     price: 95,
     tags: ["moda", "zapatillas"],
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop",
     userId: user2Id,
   },
   {
@@ -139,7 +157,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Tabla de surf longboard 7'2, incluye funda y leash.",
     price: 280,
     tags: ["deporte", "surf"],
-    image: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=400&h=300&fit=crop",
     userId: user2Id,
   },
   {
@@ -147,7 +166,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Cafetera Nespresso Vertuo Next, con aeroccino incluido.",
     price: 85,
     tags: ["hogar", "cocina"],
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
     userId: user2Id,
   },
   {
@@ -155,7 +175,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Chaqueta de cuero genuino talla L, estilo vintage años 80.",
     price: 150,
     tags: ["moda", "ropa"],
-    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop",
     userId: user2Id,
   },
   {
@@ -163,7 +184,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Patines inline Rollerblade talla 41, con protecciones.",
     price: 120,
     tags: ["deporte", "patines"],
-    image: "https://images.unsplash.com/photo-1547483238-f400e65ccd56?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1547483238-f400e65ccd56?w=400&h=300&fit=crop",
     userId: user2Id,
   },
   {
@@ -171,7 +193,8 @@ export const cloudAds = (user1Id: number, user2Id: number) => [
     description: "Librería de madera maciza 5 estantes, 180x80cm, color nogal.",
     price: 180,
     tags: ["hogar", "muebles"],
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
     userId: user2Id,
   },
 ];

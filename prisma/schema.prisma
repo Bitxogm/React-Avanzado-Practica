@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String     @id @default(uuid())
   email     String   @unique
   password  String
   name      String?
@@ -23,7 +23,7 @@ model User {
 }
 
 model Ad {
-  id          Int      @id @default(autoincrement())
+  id          String     @id @default(uuid())
   title       String
   description String
   price       Float
@@ -31,6 +31,6 @@ model Ad {
   image       String?
   sold        Boolean  @default(false)
   createdAt   DateTime @default(now())
-  userId      Int
+  userId      String
   user        User     @relation(fields: [userId], references: [id])
 }
