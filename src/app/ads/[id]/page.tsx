@@ -5,7 +5,6 @@ interface AdPageProps {
   params: Promise<{ id: string }>;
 }
 
-export const dynamic = "force-static";
 
 export async function generateMetadata({ params }: AdPageProps) {
   const { id } = await params;

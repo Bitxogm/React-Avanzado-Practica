@@ -15,20 +15,19 @@ export function Filters() {
   const [tagInput, setTagInput] = useState(searchParams.get("tag") ?? "");
 
   // Debounce para el filtro de tags
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (tagInput) {
-        params.set("tag", tagInput);
-      } else {
-        params.delete("tag");
-      }
-      router.push(`/?${params.toString()}`);
-    }, 300);
+useEffect(() => {
+  const timer = setTimeout(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (tagInput) {
+      params.set("tag", tagInput);
+    } else {
+      params.delete("tag");
+    }
+    router.push(`/?${params.toString()}`);
+  }, 300);
 
-    return () => clearTimeout(timer);
-  }, [tagInput, router, searchParams]);
-
+  return () => clearTimeout(timer);
+}, [tagInput]); // eslint-disable-line react-hooks/exhaustive-deps
   const updateFilter = useCallback(
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
