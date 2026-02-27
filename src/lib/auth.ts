@@ -10,7 +10,7 @@ const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 const AUTH_COOKIE_NAME = "session-token";
 const COOKIE_EXPIRE_SECONDS = 60 * 60 * 24;
 
-export async function createSession(userId: string) {
+export async function createSession(userId: number) {
   const token = await new SignJWT({ userId })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -28,7 +28,7 @@ export async function createSession(userId: string) {
 }
 
 type SessionUser = {
-  userId: string;
+  userId: number;
 };
 
 export async function getSession(): Promise<SessionUser | null> {
@@ -41,7 +41,7 @@ export async function getSession(): Promise<SessionUser | null> {
     const { payload } = await jwtVerify(token.value, secret);
 
     return {
-      userId: payload.userId as string,
+      userId: payload.userId as number,
     };
   } catch {
     return null;

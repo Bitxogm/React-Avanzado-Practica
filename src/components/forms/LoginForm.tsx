@@ -1,7 +1,6 @@
 "use client";
 
-import { useActionState, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useActionState, useState } from "react";
 import { loginAction } from "@/app/login/actions";
 import { initialLoginState } from "@/app/login/types";
 
@@ -38,24 +37,10 @@ function getInputClassName(hasError: boolean) {
 }
 
 export default function LoginForm({ from }: LoginFormProps) {
-  const router = useRouter();
   const [state, formAction] = useActionState(loginAction, initialLoginState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const safeState = state ?? initialLoginState;
-
-  // Redirect a home cuando el login sea exitoso
-  useEffect(() => {
-    console.log("[LoginForm] useEffect - state.success:", safeState.success);
-    if (safeState.success) {
-      console.log("[LoginForm] ✅ Login exitoso, esperando 300ms...");
-      const timer = setTimeout(() => {
-        console.log("[LoginForm] 🚀 Redirigiendo a /");
-        router.push("/");
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [safeState.success, router]);
 
   const fillCredentials = (credential: TestCredential) => {
     setEmail(credential.email);

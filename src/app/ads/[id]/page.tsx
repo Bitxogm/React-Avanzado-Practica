@@ -1,15 +1,24 @@
-import { getArticleById } from "@/lib/ad";
+import { getArticleById, getArticles } from "@/lib/ad";
 import Image from "next/image";
 
 interface AdPageProps {
   params: Promise<{ id: string }>;
 }
 
+// Solo permitir IDs que existen en la BD (no generar dinámicamente)
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const ads = await getArticles();
+  return ads.map((ad) => ({
+    id: String(ad.id),
+  }));
+}
 
 export async function generateMetadata({ params }: AdPageProps) {
   const { id } = await params;
 
-  const ad = await getArticleById(id);
+  const ad = await getArticleById(Number(id));
 
   if (!ad) return { title: "Anuncio no encontrado" };
 
@@ -27,7 +36,7 @@ export async function generateMetadata({ params }: AdPageProps) {
 export default async function AdPage({ params }: AdPageProps) {
   const { id } = await params;
 
-  const ad = await getArticleById(id);
+  const ad = await getArticleById(Number(id));
 
   if (!ad) throw new Error("El anuncio no existe o ha sido eliminado");
 

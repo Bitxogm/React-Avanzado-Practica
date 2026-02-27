@@ -11,7 +11,7 @@ export const localUsers = [
   },
 ];
 
-export const localAds = (user1Id: string, user2Id: string) => [
+export const localAds = (user1Id: number, user2Id: number) => [
   // Dev1 - electrónica barata para testing
   {
     title: "[DEV] Teclado USB básico",

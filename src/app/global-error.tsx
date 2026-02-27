@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 
 /**
@@ -17,10 +16,6 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    console.error('[global-error] Error crítico no capturado:', error);
-  }, [error]);
-
   return (
     <html lang="es" suppressHydrationWarning>
       <body style={{

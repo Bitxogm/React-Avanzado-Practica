@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
 import { ExclamationIcon } from "@primer/octicons-react";
 
 /**
@@ -16,10 +15,6 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    console.error(`[app/error]`, error);
-  }, [error]);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
       <div className="space-y-6 max-w-lg">

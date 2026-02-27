@@ -7,6 +7,7 @@ interface HomeProps {
     search?: string;
     minPrice?: string;
     maxPrice?: string;
+    price?: string;
     tag?: string;
   }>;
 }
@@ -20,7 +21,7 @@ export default async function Home({ searchParams }: HomeProps) {
     articles = await getArticles({
       search: params.search,
       minPrice: params.minPrice ? Number(params.minPrice) : undefined,
-      maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
+      maxPrice: params.maxPrice || params.price ? Number(params.maxPrice || params.price) : undefined,
       tag: params.tag,
     });
   } catch (error) {

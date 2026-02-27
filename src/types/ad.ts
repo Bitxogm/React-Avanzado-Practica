@@ -1,5 +1,5 @@
 export interface Ad {
-  id: string;
+  id: number;
   title: string;
   description: string;
   price: number;
@@ -7,5 +7,5 @@ export interface Ad {
   image: string | null;
   sold: boolean;
   createdAt: Date;
-  userId: string;
+  userId: number;
 }

@@ -11,7 +11,7 @@ export const cloudUsers = [
   },
 ];
 
-export const cloudAds = (user1Id: string, user2Id: string) => [
+export const cloudAds = (user1Id: number, user2Id: number) => [
   // Carlos - tecnología
   {
     title: "iPhone 13 Pro 256GB",

@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import z from "zod";
 import { LoginState } from "./types";
 import { createSession } from "@/lib/auth";
@@ -73,14 +74,9 @@ export async function loginAction(
   console.log("[loginAction] ✅ Usuario encontrado:", user.id);
   console.log("[loginAction] Creando sesión...");
 
-  await createSession(String(user.id));
+  await createSession(user.id);
 
-  console.log("[loginAction] ✅ SESIÓN CREADA, retornando success");
+  console.log("[loginAction] ✅ SESIÓN CREADA, redirigiendo...");
 
-  return {
-    success: true,
-    message: "Login exitoso. Redirigiendo...",
-    errors: {},
-    values: { email: emailInput },
-  };
+  redirect("/");
 }
