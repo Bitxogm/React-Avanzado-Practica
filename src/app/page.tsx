@@ -12,14 +12,21 @@ interface HomeProps {
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-  const params = await searchParams;
+  let articles;
 
-  const articles = await getArticles({
-    search: params.search,
-    minPrice: params.minPrice ? Number(params.minPrice) : undefined,
-    maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
-    tag: params.tag,
-  });
+  try {
+    const params = await searchParams;
+
+    articles = await getArticles({
+      search: params.search,
+      minPrice: params.minPrice ? Number(params.minPrice) : undefined,
+      maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
+      tag: params.tag,
+    });
+  } catch (error) {
+    console.error("[page.tsx] Error loading articles:", error);
+    throw error;
+  }
 
   return (
     <div>
