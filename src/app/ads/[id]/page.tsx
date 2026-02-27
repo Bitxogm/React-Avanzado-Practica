@@ -16,8 +16,13 @@ export async function generateMetadata({ params }: AdPageProps) {
   if (!ad) return { title: "Anuncio no encontrado" };
 
   return {
-    title: ad.title,
+    title: `${ad.title} - ${ad.price}€`,
     description: ad.description,
+    openGraph: {
+      title: `${ad.title} - ${ad.price}€`,
+      description: ad.description,
+      images: ad.image ? [ad.image] : [],
+    },
   };
 }
 
