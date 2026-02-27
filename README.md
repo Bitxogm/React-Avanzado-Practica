@@ -120,7 +120,7 @@ Abre [http://localhost:3000](http://localhost:3000)
 
 ## Deploy en Vercel
 
-La app está desplegada en Vercel. Para configurar tu propio deploy:
+La    app está desplegada en Vercel. Para configurar tu propio deploy:
 
 1. Conecta el repositorio en [vercel.com](https://vercel.com)
 2. Añade la variable de entorno en el dashboard de Vercel:
