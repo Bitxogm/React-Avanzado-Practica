@@ -1,10 +1,11 @@
 import { getArticleById } from "@/lib/ad";
-import { notFound } from "next/navigation";
 import Image from "next/image";
 
 interface AdPageProps {
   params: Promise<{ id: string }>;
 }
+
+export const dynamic = "force-static";
 
 export async function generateMetadata({ params }: AdPageProps) {
   const { id } = await params;
@@ -29,11 +30,11 @@ export async function generateMetadata({ params }: AdPageProps) {
 export default async function AdPage({ params }: AdPageProps) {
   const { id } = await params;
 
-  if (isNaN(Number(id))) notFound();
+  if (isNaN(Number(id))) throw new Error("ID de anuncio inválido");
 
   const ad = await getArticleById(Number(id));
 
-  if (!ad) notFound();
+  if (!ad) throw new Error("El anuncio no existe o ha sido eliminado");
 
   return (
     <div className="max-w-2xl mx-auto">
