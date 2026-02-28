@@ -3,8 +3,8 @@
 import { useActionState, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { loginAction } from "@/app/login/actions";
-import { initialLoginState } from "@/app/login/types";
+import { loginAction } from "@/server-actions/auth";
+import { initialLoginState } from "@/types/login";
 
 type LoginFormProps = {
   from: string;

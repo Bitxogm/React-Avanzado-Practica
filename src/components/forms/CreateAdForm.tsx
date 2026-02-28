@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import { createAdAction } from "@/lib/actions";
+import { createAdAction } from "@/server-actions/ads";
 
 const initialState = { errors: {} as Record<string, string[]>, success: false, message: "" };
 

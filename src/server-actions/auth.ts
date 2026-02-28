@@ -1,14 +1,10 @@
 "use server";
 
 import z from "zod";
-import { LoginState } from "./types";
+import { LoginState } from "@/types/login";
+import { loginSchema } from "@/lib/validations";
 import { createSession } from "@/lib/auth";
 import { verifyPassword } from "@/lib/users";
-
-const loginSchema = z.object({
-  email: z.email("Email no es válido"),
-  password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
-});
 
 function getFieldErrorsFromTree(
   error: z.ZodError<z.infer<typeof loginSchema>>,

@@ -1,5 +1,5 @@
 import prisma from "./prisma";
-import { UserDto } from "@/lib/users.types";
+import { UserDto } from "@/types/user";
 import { createHash } from "crypto";
 
 function hashPassword(plainPassword: string): string {
