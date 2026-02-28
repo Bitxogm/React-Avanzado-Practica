@@ -39,7 +39,7 @@ function getInputClassName(hasError: boolean) {
 }
 
 export default function LoginForm({ from }: LoginFormProps) {
-  const [state, formAction] = useActionState(loginAction, initialLoginState);
+  const [state, formAction, isPending] = useActionState(loginAction, initialLoginState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function LoginForm({ from }: LoginFormProps) {
     if (!safeState.success && safeState.message && Object.keys(safeState.errors).length === 0) {
       toast.error(safeState.message);
     }
-  }, [safeState.success, safeState.message, router, from]);
+  }, [safeState.success, safeState.message, router, from, safeState.errors]);
 
   const fillCredentials = (credential: TestCredential) => {
     setEmail(credential.email);
@@ -133,9 +133,10 @@ export default function LoginForm({ from }: LoginFormProps) {
 
         <button
           type="submit"
-          className="rounded bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90"
+          disabled={isPending}
+          className="rounded bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-50"
         >
-          Iniciar sesion
+          {isPending ? "Iniciando..." : "Iniciar sesion"}
         </button>
       </form>
     </div>
