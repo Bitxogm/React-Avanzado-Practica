@@ -1,5 +1,6 @@
 import { getArticleById, getArticles } from "@/lib/ad";
 import Image from "next/image";
+import { AdImageContainer } from "@/components/AdImageContainer";
 
 interface AdPageProps {
   params: Promise<{ id: string }>;
@@ -9,8 +10,8 @@ interface AdPageProps {
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const ads = await getArticles();
-  return ads.map((ad) => ({
+  const result = await getArticles();
+  return result.items.map((ad) => ({
     id: String(ad.id),
   }));
 }
@@ -42,17 +43,8 @@ export default async function AdPage({ params }: AdPageProps) {
 
   return (
     <div className="max-w-2xl mx-auto">
-      {ad.image && (
-        <div className="relative w-full h-72 mb-6 rounded-lg overflow-hidden">
-          <Image
-            src={ad.image}
-            alt={ad.title}
-            fill
-            className="object-cover"
-          />
-        </div>
-      )}
-      <h1 className="text-3xl font-bold mb-4">{ad.title}</h1>
+      <AdImageContainer imageUrl={ad.image} title={ad.title} priority={true} />
+      <h1 className="text-3xl font-bold mb-4 mt-6">{ad.title}</h1>
       <p className="text-muted-foreground mb-6">{ad.description}</p>
       <div className="flex gap-2 flex-wrap mb-6">
         {ad.tags.map((tag) => (

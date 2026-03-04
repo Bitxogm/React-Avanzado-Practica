@@ -52,9 +52,7 @@ export default function AdsFilters({
     t.toLowerCase().includes(tagInput.toLowerCase())
   );
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
+  function submitFilters() {
     const params = new URLSearchParams(searchParams.toString());
 
     if (query) {
@@ -92,6 +90,11 @@ export default function AdsFilters({
     router.replace(`${pathname}?${params.toString()}`);
   }
 
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    submitFilters();
+  }
+
   function handleClear() {
     setQuery("");
     setOrder("asc");
@@ -104,7 +107,7 @@ export default function AdsFilters({
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
       e.preventDefault();
-      handleSubmit(e as any);
+      submitFilters();
     }
   }
 

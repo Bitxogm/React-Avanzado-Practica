@@ -15,6 +15,33 @@ export const createAdSchema = z.object({
       .map((t) => t.trim())
       .filter(Boolean),
   ),
+  image: z
+    .string()
+    .optional()
+    .or(z.literal(""))
+    .refine(
+      (val) => {
+        if (!val) return true; // Optional
+        if (val.includes("unsplash.com/photos/")) return false; // Reject unsplash.com/photos/ URLs
+        return true;
+      },
+      {
+        message:
+          "URL de Unsplash inválida. Copia la URL de la imagen, no el enlace de la página",
+      },
+    )
+    .refine(
+      (val) => {
+        if (!val) return true;
+        try {
+          new URL(val);
+          return true;
+        } catch {
+          return false;
+        }
+      },
+      { message: "URL no válida" },
+    ),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;

@@ -1,7 +1,9 @@
 import { getArticles } from "@/lib/ad";
 import { AdCard } from "@/components/AdCard";
 import AdsFiltersForm from "@/components/forms/AdsFiltersForm";
+import Pagination from "@/components/Pagination";
 
+const PAGE_SIZE = 5;
 interface HomeProps {
   searchParams: Promise<{
     search?: string;
@@ -23,10 +25,13 @@ function getSingleSearchParam(value: SearchParamValue) {
   }
   return value;
 }
+
 export default async function Home({ searchParams }: HomeProps) {
-  let articles;
+  let articles = [];
   let query: string | undefined;
   let order: "asc" | "desc" = "desc";
+  let currentPage = 1;
+  let totalPages = 0;
 
   try {
     const params = await searchParams;
@@ -34,14 +39,22 @@ export default async function Home({ searchParams }: HomeProps) {
     // Extraer y parsear los parámetros de búsqueda de la URL
     query = getSingleSearchParam(params.search) as string | undefined;
     order = (getSingleSearchParam(params.order) as "asc" | "desc") || "desc";
+    const pageNum = params.page ? Number(params.page) : 1;
+    currentPage = Number.isNaN(pageNum) || pageNum < 1 ? 1 : pageNum;
 
-    articles = await getArticles({
+    const result = await getArticles({
       search: params.search,
       minPrice: params.minPrice ? Number(params.minPrice) : undefined,
       maxPrice: params.maxPrice || params.price ? Number(params.maxPrice || params.price) : undefined,
       tag: params.tag,
       order: order,
+      page: currentPage,
+      perPage: PAGE_SIZE,
     });
+
+    articles = result.items;
+    totalPages = result.totalPages;
+    currentPage = result.currentPage;
   } catch (error) {
     console.error("[page.tsx] Error loading articles:", error);
     throw error;
@@ -53,11 +66,16 @@ export default async function Home({ searchParams }: HomeProps) {
       <AdsFiltersForm initialQuery={query ?? ""} initialOrder={order} />
 
       {articles && articles.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((ad) => (
-            <AdCard key={ad.id} ad={ad} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {articles.map((ad) => (
+              <AdCard key={ad.id} ad={ad} />
+            ))}
+          </div>
+          {totalPages > 1 && (
+            <Pagination currentPage={currentPage} totalPages={totalPages} />
+          )}
+        </>
       ) : (
         <div className="flex flex-col items-center justify-center py-16 px-4">
           <div className="text-center">
@@ -68,7 +86,7 @@ export default async function Home({ searchParams }: HomeProps) {
               Intenta ajustar tus filtros de búsqueda
             </p>
             <div className="flex flex-col gap-2 text-sm text-gray-500 dark:text-gray-500">
-              {query && <p>📝 Búsqueda: "{query}"</p>}
+              {query && <p>📝 Búsqueda: &quot;{query}&quot;</p>}
               {query && <p>↓</p>}
               <p>💡 Prueba con palabras clave diferentes o rango de precios más amplio</p>
             </div>

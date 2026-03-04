@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Ad } from "@/types/ad";
 import { TagIcon, PackageIcon } from "@primer/octicons-react";
+import { AdImageContainer } from "./AdImageContainer";
 
 interface AdCardProps {
   ad: Ad;
@@ -13,18 +14,7 @@ export function AdCard({ ad, priority = false }: AdCardProps) {
   return (
     <Link href={`/ads/${ad.id}`}>
       <Card className="hover:shadow-lg transition-shadow cursor-pointer overflow-hidden">
-        {ad.image && (
-          <div className="relative w-full h-48">
-            <Image
-              src={ad.image}
-              alt={ad.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
-              priority={priority}
-            />
-          </div>
-        )}
+        <AdImageContainer imageUrl={ad.image} title={ad.title} priority={priority} />
         <CardHeader>
           <CardTitle>{ad.title}</CardTitle>
         </CardHeader>

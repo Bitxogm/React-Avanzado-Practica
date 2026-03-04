@@ -33,6 +33,13 @@ export default function CreateAdForm() {
         <input name="tags" type="text" placeholder="Tags separados por coma (ej: tecnología, móvil)" className="border rounded px-3 py-2 w-full" />
         {state?.errors?.tags && <p className="text-red-500 text-sm mt-1">{state.errors.tags[0]}</p>}
       </div>
+      <div>
+        <input name="image" type="url" placeholder="https://images.unsplash.com/photo-..." className="border rounded px-3 py-2 w-full" />
+        <p className="text-xs text-muted-foreground mt-1">
+          💡 Opcional. Para Unsplash: clic derecho en la foto → "Copiar enlace de la imagen"
+        </p>
+        {state?.errors?.image && <p className="text-red-500 text-sm mt-1">{state.errors.image[0]}</p>}
+      </div>
       <button type="submit" disabled={isPending} className="bg-primary text-primary-foreground px-4 py-2 rounded hover:opacity-90 disabled:opacity-50">
         {isPending ? "Publicando..." : "Publicar anuncio"}
       </button>

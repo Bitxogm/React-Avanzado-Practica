@@ -12,6 +12,7 @@ export async function createAdAction(prevState: unknown, formData: FormData) {
     description: formData.get("description"),
     price: formData.get("price"),
     tags: formData.get("tags"),
+    image: formData.get("image"),
   };
 
   const result = createAdSchema.safeParse(raw);
@@ -36,7 +37,11 @@ export async function createAdAction(prevState: unknown, formData: FormData) {
 
   await prisma.ad.create({
     data: {
-      ...result.data,
+      title: result.data.title,
+      description: result.data.description,
+      price: result.data.price,
+      tags: result.data.tags,
+      image: result.data.image || null,
       userId: session.userId,
     },
   });
