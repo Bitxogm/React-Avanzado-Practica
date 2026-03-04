@@ -6,6 +6,7 @@ export interface AdFilters {
   minPrice?: number;
   maxPrice?: number;
   tag?: string;
+  order?: "asc" | "desc";
 }
 
 export async function getArticleById(id: number): Promise<Ad | null> {
@@ -15,7 +16,7 @@ export async function getArticleById(id: number): Promise<Ad | null> {
 }
 
 export async function getArticles(filters: AdFilters = {}): Promise<Ad[]> {
-  const { search, minPrice, maxPrice, tag } = filters;
+  const { search, minPrice, maxPrice, tag, order = "desc" } = filters;
 
   // Normalizar el tag a minúsculas
   const normalizedTag = tag?.toLowerCase().trim();
@@ -39,11 +40,19 @@ export async function getArticles(filters: AdFilters = {}): Promise<Ad[]> {
   });
 
   // Luego filtramos por tags en memoria (case-insensitive)
+  let filtered = ads;
   if (normalizedTag) {
-    return ads.filter((ad) =>
+    filtered = ads.filter((ad) =>
       ad.tags.some((t) => t.toLowerCase().includes(normalizedTag)),
     );
   }
 
-  return ads;
+  // Ordenar por precio
+  return filtered.sort((a, b) => {
+    if (order === "asc") {
+      return a.price - b.price;
+    } else {
+      return b.price - a.price;
+    }
+  });
 }
