@@ -18,24 +18,41 @@ export function AdImageContainer({
 
   const showPlaceholder = !imageUrl || imageError;
 
-  // Validar que sea una URL válida
-  const isValidImageUrl = (url: string | null): boolean => {
+  // Detectar si es un data URL (base64)
+  const isDataUrl = (url: string | null): boolean => {
+    return url?.startsWith("data:") ?? false;
+  };
+
+  // Validar que sea una URL HTTP/HTTPS válida
+  const isValidHttpUrl = (url: string | null): boolean => {
     if (!url) return false;
     try {
       const urlObj = new URL(url);
-      return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+      return urlObj.protocol === "http:" || urlObj.protocol === "https:";
     } catch {
       return false;
     }
   };
 
-  const validImageUrl = isValidImageUrl(imageUrl) ? imageUrl : null;
+  const isDataURLImage = isDataUrl(imageUrl);
+  const isHttpURLImage = isValidHttpUrl(imageUrl);
 
   return (
     <div className="relative w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
-      {!showPlaceholder && validImageUrl && (
+      {/* Data URL: usar <img> directo */}
+      {!showPlaceholder && isDataURLImage && (
+        <img
+          src={imageUrl!}
+          alt={title}
+          className="w-full h-full object-cover"
+          onError={() => setImageError(true)}
+        />
+      )}
+
+      {/* HTTP/HTTPS URL: usar Next.js Image */}
+      {!showPlaceholder && isHttpURLImage && (
         <Image
-          src={validImageUrl}
+          src={imageUrl!}
           alt={title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -44,6 +61,8 @@ export function AdImageContainer({
           onError={() => setImageError(true)}
         />
       )}
+
+      {/* Placeholder cuando no hay imagen o hay error */}
       {showPlaceholder && (
         <svg
           className="w-16 h-16 text-gray-400"

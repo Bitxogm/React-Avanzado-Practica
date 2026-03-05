@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Ad } from "@/types/ad";
 import { TagIcon, PackageIcon } from "@primer/octicons-react";

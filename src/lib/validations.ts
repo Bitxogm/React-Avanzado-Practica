@@ -15,7 +15,7 @@ export const createAdSchema = z.object({
       .map((t) => t.trim())
       .filter(Boolean),
   ),
-  image: z
+  imageUrl: z
     .string()
     .optional()
     .or(z.literal(""))

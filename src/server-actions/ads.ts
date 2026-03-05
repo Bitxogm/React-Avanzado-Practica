@@ -6,13 +6,37 @@ import { createAdSchema } from "@/lib/validations";
 import { getSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
-export async function createAdAction(prevState: unknown, formData: FormData) {
+type ActionState = {
+  success: boolean;
+  message: string;
+  errors: Record<string, string[]>;
+};
+
+export async function createAdAction(
+  prevState: unknown,
+  formData: FormData,
+): Promise<ActionState> {
+  // Extraer imagen: puede venir como base64 (archivo) o como URL
+  let imageData: string | null = null;
+
+  const imageBase64 = formData.get("imageBase64");
+  const imageUrl = formData.get("imageUrl");
+
+  // Si hay archivo convertido a base64 (enviado desde el cliente)
+  if (imageBase64 && typeof imageBase64 === "string" && imageBase64.trim()) {
+    imageData = imageBase64;
+  }
+  // Si hay URL
+  else if (imageUrl && typeof imageUrl === "string" && imageUrl.trim()) {
+    imageData = imageUrl;
+  }
+
   const raw = {
     title: formData.get("title"),
     description: formData.get("description"),
     price: formData.get("price"),
     tags: formData.get("tags"),
-    image: formData.get("image"),
+    imageUrl: imageData,
   };
 
   const result = createAdSchema.safeParse(raw);
@@ -21,7 +45,7 @@ export async function createAdAction(prevState: unknown, formData: FormData) {
     return {
       success: false,
       message: "Revisa los campos marcados",
-      errors: result.error.flatten().fieldErrors,
+      errors: result.error.flatten().fieldErrors as Record<string, string[]>,
     };
   }
 
@@ -41,7 +65,7 @@ export async function createAdAction(prevState: unknown, formData: FormData) {
       description: result.data.description,
       price: result.data.price,
       tags: result.data.tags,
-      image: result.data.image || null,
+      image: result.data.imageUrl || null,
       userId: session.userId,
     },
   });
