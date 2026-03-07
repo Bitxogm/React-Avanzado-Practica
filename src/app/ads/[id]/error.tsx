@@ -11,6 +11,9 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const friendlyMessage =
+    "No pudimos cargar este anuncio en este momento. Inténtalo de nuevo o vuelve al listado.";
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
       <div className="space-y-6 max-w-lg">
@@ -30,7 +33,7 @@ export default function Error({
         </h2>
 
         <p className="text-lg text-gray-600 dark:text-gray-400 wrap-break-word">
-          {error.message || "El anuncio que buscas no existe, fue eliminado o no tienes acceso a él."}
+          {friendlyMessage}
         </p>
 
         {error.digest && (

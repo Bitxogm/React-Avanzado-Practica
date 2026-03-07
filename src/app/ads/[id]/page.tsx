@@ -1,11 +1,26 @@
 import { getArticleById, getArticles } from "@/lib/ad";
 import { AdImageContainer } from "@/components/AdImageContainer";
+import { notFound } from "next/navigation";
 
 interface AdPageProps {
   params: Promise<{ id: string }>;
 }
 
-export const dynamicParams = false;
+function parseAdId(rawId: string): number | null {
+  if (!/^\d+$/.test(rawId)) {
+    return null;
+  }
+
+  const parsedId = Number(rawId);
+
+  if (!Number.isSafeInteger(parsedId) || parsedId < 1) {
+    return null;
+  }
+
+  return parsedId;
+}
+
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const result = await getArticles();
@@ -15,9 +30,14 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: AdPageProps) {
-  const { id } = await params;
+  const { id: rawId } = await params;
+  const adId = parseAdId(rawId);
 
-  const ad = await getArticleById(Number(id));
+  if (!adId) {
+    return { title: "Anuncio no encontrado" };
+  }
+
+  const ad = await getArticleById(adId);
 
   if (!ad) return { title: "Anuncio no encontrado" };
 
@@ -33,11 +53,16 @@ export async function generateMetadata({ params }: AdPageProps) {
 }
 
 export default async function AdPage({ params }: AdPageProps) {
-  const { id } = await params;
+  const { id: rawId } = await params;
+  const adId = parseAdId(rawId);
 
-  const ad = await getArticleById(Number(id));
+  if (!adId) {
+    notFound();
+  }
 
-  if (!ad) throw new Error("El anuncio no existe o ha sido eliminado");
+  const ad = await getArticleById(adId);
+
+  if (!ad) notFound();
 
   return (
     <div className="max-w-2xl mx-auto">

@@ -13,6 +13,10 @@ export interface AdFilters {
 }
 
 export async function getArticleById(id: number): Promise<Ad | null> {
+  if (!Number.isInteger(id) || id < 1) {
+    return null;
+  }
+
   return prisma.ad.findUnique({
     where: { id },
   });
