@@ -73,3 +73,30 @@ export async function createAdAction(
   revalidatePath("/");
   redirect("/");
 }
+
+export async function deleteAdAction(adId: number) {
+  const session = await getSession();
+
+  if (!session) {
+    return { success: false, message: "No estás autenticado", errors: {} };
+  }
+
+  const ad = await prisma.ad.findUnique({
+    where: { id: adId },
+  });
+
+  if (!ad) {
+    return { success: false, message: "Anuncio no encontrado", errors: {} };
+  }
+
+  if (ad.userId !== session.userId) {
+    return { success: false, message: "No tienes permiso para borrar este anuncio", errors: {} };
+  }
+
+  await prisma.ad.delete({
+    where: { id: adId },
+  });
+
+  revalidatePath("/");
+  redirect("/");
+}

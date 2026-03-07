@@ -1,6 +1,8 @@
 import { getArticleById, getArticles } from "@/lib/ad";
 import { AdImageContainer } from "@/components/AdImageContainer";
 import { notFound } from "next/navigation";
+import { getSession } from "@/lib/auth";
+import DeleteAdButton from "@/components/DeleteAdButton";
 
 interface AdPageProps {
   params: Promise<{ id: string }>;
@@ -60,9 +62,14 @@ export default async function AdPage({ params }: AdPageProps) {
     notFound();
   }
 
-  const ad = await getArticleById(adId);
+  const [ad, session] = await Promise.all([
+    getArticleById(adId),
+    getSession(),
+  ]);
 
   if (!ad) notFound();
+
+  const isOwner = session?.userId === ad.userId;
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -83,6 +90,7 @@ export default async function AdPage({ params }: AdPageProps) {
       <p className="text-sm text-muted-foreground mt-2">
         {ad.sold ? "Vendido" : "Disponible"}
       </p>
+      {isOwner && <DeleteAdButton adId={ad.id} />}
     </div>
   );
 }
