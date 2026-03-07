@@ -3,10 +3,7 @@
 import Link from "next/link";
 import { SearchIcon } from "@primer/octicons-react";
 
-/**
- * ERROR BOUNDARY PARA DETALLES DE ANUNCIO
- * Atrapa errores específicos al cargar un anuncio por ID
- */
+
 export default function Error({
   error,
   reset,

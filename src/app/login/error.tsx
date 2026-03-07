@@ -3,10 +3,7 @@
 import Link from "next/link";
 import { LockIcon } from "@primer/octicons-react";
 
-/**
- * ERROR BOUNDARY PARA LOGIN
- * Atrapa errores específicos durante la autenticación
- */
+
 export default function Error({
   error,
   reset,

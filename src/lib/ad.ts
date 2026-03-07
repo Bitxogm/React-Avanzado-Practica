@@ -34,13 +34,10 @@ export async function getArticles(
     perPage = 10,
   } = filters;
 
-  // ✅ Proteger page: debe ser número válido y >= 1
   const safePage = Number.isNaN(page) || page < 1 ? 1 : page;
 
-  // ✅ Proteger pageSize: debe ser número válido y >= 1
   const safePageSize = Number.isNaN(perPage) || perPage < 1 ? 10 : perPage;
 
-  // Normalizar el tag a minúsculas
   const normalizedTag = tag?.toLowerCase().trim();
 
   const totalAds = await prisma.ad.count({
@@ -56,12 +53,10 @@ export async function getArticles(
   const totalPages = Math.ceil(totalAds / safePageSize);
   const currentPage = Math.min(safePage, totalPages || 1);
 
-  // Si la página solicitada es mayor que el total de páginas, devolvemos un array vacío
   if (safePage > totalPages && totalPages > 0) {
     return { items: [], totalPages, currentPage };
   }
 
-  // Obtener los anuncios con los filtros básicos y paginación
   const skip = (currentPage - 1) * safePageSize;
 
   const ads = await prisma.ad.findMany({
@@ -77,7 +72,6 @@ export async function getArticles(
     },
   });
 
-  // Filtrar por tags en memoria (case-insensitive)
   let filtered = ads;
   if (normalizedTag) {
     filtered = ads.filter((ad) =>
@@ -85,7 +79,6 @@ export async function getArticles(
     );
   }
 
-  // Aplicar paginación al array filtrado
   const paginatedAds = filtered.slice(skip, skip + safePageSize);
 
   return { items: paginatedAds, totalPages, currentPage };

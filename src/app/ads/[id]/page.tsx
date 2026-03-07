@@ -1,12 +1,10 @@
 import { getArticleById, getArticles } from "@/lib/ad";
-import Image from "next/image";
 import { AdImageContainer } from "@/components/AdImageContainer";
 
 interface AdPageProps {
   params: Promise<{ id: string }>;
 }
 
-// Solo permitir IDs que existen en la BD (no generar dinámicamente)
 export const dynamicParams = false;
 
 export async function generateStaticParams() {

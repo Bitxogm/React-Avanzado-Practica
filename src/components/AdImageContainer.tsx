@@ -37,14 +37,19 @@ export function AdImageContainer({
   const isDataURLImage = isDataUrl(imageUrl);
   const isHttpURLImage = isValidHttpUrl(imageUrl);
 
+  const dataUrlLoader = ({ src }: { src: string }) => src;
+
   return (
     <div className="relative w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
-      {/* Data URL: usar <img> directo */}
+      {/* Data URL: usar Next.js Image con loader personalizado */}
       {!showPlaceholder && isDataURLImage && (
-        <img
+        <Image
           src={imageUrl!}
           alt={title}
-          className="w-full h-full object-cover"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover"
+          loader={dataUrlLoader}
           onError={() => setImageError(true)}
         />
       )}

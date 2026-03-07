@@ -2,13 +2,6 @@
 
 import Link from 'next/link';
 
-/**
- * ERROR BOUNDARY GLOBAL
- * Esta es la última línea de defensa. Se activa cuando:
- * 1. Hay un error no capturado por error.tsx
- * 2. Hay un error en el root layout
- * 3. Falla el error boundary del root layout
- */
 export default function GlobalError({
   error,
   reset,

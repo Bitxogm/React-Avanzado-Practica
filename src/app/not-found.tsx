@@ -1,15 +1,7 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 
-/**
- * COMPONENTE GLOBAL NOT FOUND (404)
- * Next.js mostrará automáticamente esta página cuando:
- * 1. Un usuario intente acceder a una URL que no existe (ej: /rutafalsa).
- * 2. Llamemos manualmente a la función `notFound()` dentro de cualquier Server Component
- *    (por ejemplo, si buscamos en la BD el proyecto con id 9999 y Prisma devuelve null).
- */
 export default async function NotFound() {
-  // Opcional: Podemos leer cabeceras para saber qué ruta intentó acceder (avanzado)
   const headersList = await headers();
   const domain = headersList.get("host");
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState, useRef } from "react";
+import Image from "next/image";
 import { toast } from "sonner";
 import { createAdAction } from "@/server-actions/ads";
 import { isValidImageFile } from "@/lib/upload";
@@ -188,7 +189,7 @@ export default function CreateAdForm() {
               <div className="mt-4">
                 <p className="text-xs text-muted-foreground mb-2">Vista previa</p>
                 <div className="relative">
-                  <img src={imagePreview} alt="Preview" className="w-full max-h-96 object-cover rounded-lg border" />
+                  <Image src={imagePreview} alt="Preview" width={500} height={400} className="w-full max-h-96 object-cover rounded-lg border" />
                   <button
                     type="button"
                     onClick={() => {
@@ -218,7 +219,7 @@ export default function CreateAdForm() {
                 className="border rounded px-3 py-2 w-full"
               />
               <p className="text-xs text-muted-foreground mt-2">
-                Pega el enlace directo de la imagen. Para Unsplash: clic derecho en la foto → "Copiar enlace de la imagen"
+                Pega el enlace directo de la imagen. Para Unsplash: clic derecho en la foto → &quot;Copiar enlace de la imagen&quot;
               </p>
               {state?.errors?.imageUrl && <p className="text-red-500 text-sm mt-1">{state.errors.imageUrl[0]}</p>}
             </div>

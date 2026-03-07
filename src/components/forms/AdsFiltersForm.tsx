@@ -27,6 +27,15 @@ export default function AdsFilters({
   const router = useRouter();
   const pathname = usePathname();
 
+  function setOrDeleteParam(params: URLSearchParams, key: string, value: string) {
+    if (value) {
+      params.set(key, value);
+      return;
+    }
+
+    params.delete(key);
+  }
+
   // Tags disponibles
   const availableTags = [
     "tecnología",
@@ -55,34 +64,16 @@ export default function AdsFilters({
   function submitFilters() {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (query) {
-      params.set("query", query);
-    } else {
-      params.delete("query");
-    }
+    const filters: Record<string, string> = {
+      query,
+      order,
+      minPrice,
+      maxPrice,
+      tag: tagInput,
+    };
 
-    if (order) {
-      params.set("order", order);
-    } else {
-      params.delete("order");
-    }
-
-    if (minPrice) {
-      params.set("minPrice", minPrice);
-    } else {
-      params.delete("minPrice");
-    }
-
-    if (maxPrice) {
-      params.set("maxPrice", maxPrice);
-    } else {
-      params.delete("maxPrice");
-    }
-
-    if (tagInput) {
-      params.set("tag", tagInput);
-    } else {
-      params.delete("tag");
+    for (const [key, value] of Object.entries(filters)) {
+      setOrDeleteParam(params, key, value);
     }
 
     params.set("page", "1");

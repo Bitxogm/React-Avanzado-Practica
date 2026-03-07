@@ -3,11 +3,6 @@
 import Link from "next/link";
 import { ExclamationIcon } from "@primer/octicons-react";
 
-/**
- * COMPONENTE DE ERROR RAÍZ DEL APP ROUTER
- * Este error boundary atrapa errores en la raíz del app router.
- * Es la segunda línea de defensa (después de global-error.tsx).
- */
 export default function Error({
   error,
   reset,

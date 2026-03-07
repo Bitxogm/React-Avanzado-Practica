@@ -3,10 +3,7 @@
 import Link from "next/link";
 import { ExclamationIcon } from "@primer/octicons-react";
 
-/**
- * ERROR BOUNDARY PARA SECCIÓN DE ANUNCIOS
- * Atrapa errores generales en la sección /ads
- */
+
 export default function Error({
   error,
   reset,

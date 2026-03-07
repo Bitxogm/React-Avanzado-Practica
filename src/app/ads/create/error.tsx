@@ -3,10 +3,7 @@
 import Link from "next/link";
 import { PlusIcon } from "@primer/octicons-react";
 
-/**
- * ERROR BOUNDARY PARA CREAR ANUNCIO
- * Atrapa errores específicos al publicar un nuevo anuncio
- */
+
 export default function Error({
   error,
   reset,
