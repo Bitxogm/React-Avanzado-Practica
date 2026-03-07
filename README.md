@@ -44,7 +44,8 @@ El proyecto separa el entorno local (Docker) del entorno cloud (Supabase).
 
 Crea un `.env` en la raíz:
 ```env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/marketplace_react_advanced_db?schema=public"
+DATABASE_URL="postgresql://postgres:postgres@localhost:54320/marketplace_react_advanced_db?schema=public"
+JWT_SECRET="dev-jwt-secret-change-me"
 ```
 
 > El puerto puede variar si tienes conflictos. En este proyecto usamos `54320` para evitar colisiones con otros contenedores.
@@ -54,6 +55,7 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/marketplace_react_ad
 Crea un `.env.supabase` en la raíz (nunca lo subas a git):
 ```env
 DATABASE_URL="postgresql://postgres.<project-ref>:<password>@aws-1-eu-west-1.pooler.supabase.com:5432/postgres"
+JWT_SECRET="<tu-jwt-secret-seguro>"
 ```
 
 > **Importante**: Supabase requiere el **session pooler** (puerto 5432), no el transaction pooler (puerto 6543), para operaciones de migrate/push con Prisma.
@@ -107,6 +109,8 @@ pnpm prisma:seed:cloud
 | `pnpm prisma:seed:local` | Seed en Docker |
 | `pnpm prisma:seed:cloud` | Seed en Supabase |
 
+> Nota: los scripts de seed usan `cross-env`, por lo que funcionan en Windows, Linux y macOS.
+
 ---
 
 ## Arrancar la app
@@ -145,4 +149,35 @@ DATABASE_URL = <tu-session-pooler-url-de-supabase>
 ├── .env                    # Variables locales (no subir a git)
 ├── .env.supabase           # Variables Supabase (no subir a git)
 └── docker-compose.yml      # Configuración Docker
+```
+
+---
+
+## Troubleshooting
+
+### Error Docker: `open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified`
+
+**Causa:** Docker Desktop está cerrado o el engine de Linux no está levantado.
+
+**Solución:**
+1. Abre Docker Desktop y espera a que aparezca como **Running**.
+2. Verifica conexión:
+	```bash
+	docker version
+	```
+3. Levanta de nuevo la base:
+	```bash
+	docker compose up -d
+	```
+
+### Error Windows: `'SEED_ENV' is not recognized as an internal or external command`
+
+**Causa:** sintaxis de variables de entorno estilo Unix en scripts ejecutados desde Windows.
+
+**Solución aplicada en este proyecto:** los scripts de seed usan `cross-env`.
+
+Si falla, reinstala dependencias y vuelve a ejecutar:
+```bash
+pnpm install
+pnpm prisma:seed:local
 ```
