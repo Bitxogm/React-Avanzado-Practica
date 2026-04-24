@@ -22,14 +22,15 @@ function parseAdId(rawId: string): number | null {
   return parsedId;
 }
 
+export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
-export async function generateStaticParams() {
-  const result = await getArticles();
-  return result.items.map((ad) => ({
-    id: String(ad.id),
-  }));
-}
+// export async function generateStaticParams() {
+//   const result = await getArticles();
+//   return result.items.map((ad) => ({
+//     id: String(ad.id),
+//   }));
+// }
 
 export async function generateMetadata({ params }: AdPageProps) {
   const { id: rawId } = await params;
