@@ -1,0 +1,63 @@
+name: nextjs-bootcamp
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: nextjs-bootcamp-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  db-init:
+    image: node:22-alpine
+    restart: "no"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+    volumes:
+      - ./prisma:/app/prisma
+    working_dir: /app
+    command: sh -c "npm install -g prisma@7.4.1 --quiet && prisma db push --schema=prisma/schema.prisma"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - internal
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs-bootcamp-app
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: production
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    expose:
+      - "3000"
+    networks:
+      - internal
+      - nginx-proxy_default
+
+volumes:
+  postgres_data:
+
+networks:
+  internal:
+    driver: bridge
+  nginx-proxy_default:
+    external: true
